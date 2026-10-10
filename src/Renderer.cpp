@@ -86,14 +86,20 @@ std::string Renderer::Render(const Buffer& buffer, const Window& window, const R
 
     std::size_t cursor_row{0};
     std::size_t cursor_column{0};
-    Position cursor = window.GetCursor();
-    cursor_row = (cursor.row_ >= viewport.top_) ? cursor.row_ -viewport.top_ : 0;
-    //计算cursor_row和cursor_column即可    
-    if(cursor.row_ < buffer.GetLineCount()) {
-        const std::string &line = buffer.GetLineAt(cursor.row_);
-        std::size_t display_column = BufferColumnToRenderColumn(line, cursor.column_);
-        cursor_column = (display_column >= viewport.left_) ? display_column - viewport.left_ : 0;  
+    if(state.mode_ == Mode::CommandLine) {
+        cursor_row = viewport.rows_;
+        cursor_column = 1 + state.command_.size();
+    } else {
+         Position cursor = window.GetCursor();
+        cursor_row = (cursor.row_ >= viewport.top_) ? cursor.row_ -viewport.top_ : 0;
+        //计算cursor_row和cursor_column即可    
+        if(cursor.row_ < buffer.GetLineCount()) {
+            const std::string &line = buffer.GetLineAt(cursor.row_);
+            std::size_t display_column = BufferColumnToRenderColumn(line, cursor.column_);
+            cursor_column = (display_column >= viewport.left_) ? display_column - viewport.left_ : 0;  
+        }
     }
+    
 
     frame += CursorSequence(cursor_row + 1, cursor_column + 1);
     frame += "\x1b[?25h";
