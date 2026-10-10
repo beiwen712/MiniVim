@@ -102,7 +102,9 @@ void Window::MoveUp(const Buffer& buffer, std::size_t count) {
     if(cursor_.row_ >= count) cursor_.row_ -= count;
     else cursor_.row_ = 0;
     const std::string& line=buffer.GetLineAt(cursor_.row_);
-    cursor_.column_ = RenderColumnToBufferColumn(line, desired_column_);
+    std::size_t col = RenderColumnToBufferColumn(line, desired_column_);
+    std::size_t max_col = line.empty() ? 0 : line.size() - 1;
+    cursor_.column_ = std::min(col, max_col);
     //经过短行时不要更新desired_screen_column_,这样继续移动到长行时能回到原来的列
     // throw std::runtime_error("Not implemented.");
 }
@@ -116,8 +118,10 @@ void Window::MoveDown(const Buffer& buffer, std::size_t count) {
     } else {
         cursor_.row_ = last_row;
     }
-    const std::string& line = buffer.GetLineAt(cursor_.row_);
-    cursor_.column_ = RenderColumnToBufferColumn(line, desired_column_);
+    const std::string& line=buffer.GetLineAt(cursor_.row_);
+    std::size_t col = RenderColumnToBufferColumn(line, desired_column_);
+    std::size_t max_col = line.empty() ? 0 : line.size() - 1;
+    cursor_.column_ = std::min(col, max_col);
     // throw std::runtime_error("Not implemented.");
 }
 
