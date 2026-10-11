@@ -137,14 +137,8 @@ void Buffer::WriteTo(const std::filesystem::path& path) const {
     if(!file) {
         throw std::runtime_error("Failed to open file for writing: " + path.string());
     }
-/*    for(const auto &line : lines_) {
+    for(const auto &line : lines_) {
         file << line << "\n";
-    }*/
-    for(std::size_t i = 0; i< lines_.size(); ++i) {
-        file << lines_[i];
-        if(i + 1 < lines_.size()) {
-            file << "\n";
-        }
     }
 //    throw std::runtime_error("Not implemented.");
 }
