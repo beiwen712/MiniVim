@@ -137,9 +137,9 @@ void Buffer::WriteTo(const std::filesystem::path& path) const {
     if(!file) {
         throw std::runtime_error("Failed to open file for writing: " + path.string());
     }
-  /*  if(lines_.size() == 1 && lines_[0].empty()) {
+    if(lines_.size() == 1 && lines_[0].empty()) {
         return;
-    }*/
+    }
     for(const auto &line : lines_) {
         file << line << "\n";
     }
