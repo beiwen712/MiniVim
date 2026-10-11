@@ -228,12 +228,12 @@ void Editor::ExecuteCommandLine() {
     
     if(name == "w") { 
         SaveBuffer(arg.empty() ? std::filesystem::path{} : 
-                                     std::filesystem::path{arg});
+                                 std::filesystem::path{arg});
     } else if(name == "q!" || name == "quit!") {
         running_ = false;
     } else if(name == "wq") {
         if(SaveBuffer(arg.empty() ? std::filesystem::path{} : 
-                                     std::filesystem::path{arg})) {
+                                    std::filesystem::path{arg})) {
                                         running_ = false;
                                     }
     } else {

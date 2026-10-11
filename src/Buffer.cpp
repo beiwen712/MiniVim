@@ -8,7 +8,7 @@ Buffer::Buffer(const std::filesystem::path& path){
     path_=path;
     modified = false;
     if(path.empty()) {
-        lines_.push_back("");
+       lines_.push_back("");
         return;
     }
     std::ifstream file(path);
@@ -137,9 +137,17 @@ void Buffer::WriteTo(const std::filesystem::path& path) const {
     if(!file) {
         throw std::runtime_error("Failed to open file for writing: " + path.string());
     }
+    if(lines_.size() == 1 && lines_[0].empty()) {
+        return;
+    }
     for(const auto &line : lines_) {
         file << line << "\n";
     }
+  /*for(const std::size_t row = 0; row < lines_.size(); row++) {
+        file << lines_[row];
+        if(row + 1 < lines_.size()) 
+            file << "\n";
+    }*/
 //    throw std::runtime_error("Not implemented.");
 }
 
